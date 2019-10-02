@@ -1,0 +1,2 @@
+include ':app', ':usecases', ':domain', ':data', ':commons'
+rootProject.name='CleanArchitecture'
