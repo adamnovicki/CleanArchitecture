@@ -8,8 +8,6 @@ data class WeatherUI (
     val windSpeed: Long,
     val city: String,
     val iconType: IconType
-
-
 ) {
     override fun toString(): String {
         return "WeatherUI(temp=$temp, windSpeed='$windSpeed', city='$city', iconType=$iconType)"

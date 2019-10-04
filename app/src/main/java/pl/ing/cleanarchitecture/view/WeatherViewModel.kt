@@ -20,9 +20,8 @@ class WeatherViewModel(private val getWeatherUseCase: GetWeatherUseCase) : ViewM
     val isErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getWeather(city: String) {
-        Timber.d("getWeather")
         viewModelScope.launch {
-            updateWeatherLiveData(getWeatherUseCase.invoke(city))
+            updateWeatherLiveData(getWeatherUseCase(city))
         }
     }
 
@@ -40,12 +39,8 @@ class WeatherViewModel(private val getWeatherUseCase: GetWeatherUseCase) : ViewM
 
     private fun onResultSuccess(weatherData: WeatherData?) {
         val weather = WeatherViewModelMapper.WeatherToUI.map(weatherData)
-        Timber.d("onResultSuccess")
         weatherLiveData.postValue(weather)
     }
 
-    private fun onResultError() {
-        Timber.d("onResultError")
-        isErrorLiveData.postValue(true)
-    }
+    private fun onResultError() = isErrorLiveData.postValue(true)
 }

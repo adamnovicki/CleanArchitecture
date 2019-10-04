@@ -26,6 +26,10 @@ class WeatherActivity : AppCompatActivity() {
         viewModel.weatherLiveData.observe(this, Observer(::onWeatherReceived))
     }
 
+    private fun getWeather() {
+        viewModel.getWeather("Katowice")
+    }
+
     private fun onErrorReceived() {
         AlertDialog.Builder(this)
             .setTitle(R.string.error_title)
@@ -38,13 +42,7 @@ class WeatherActivity : AppCompatActivity() {
             }.show()
     }
 
-    private fun getWeather() {
-        viewModel.getWeather("Katowice")
-    }
-
     private fun onWeatherReceived(weather: WeatherUI) {
-        Timber.d("onWeatherReceived $weather")
-
         cityTv.text = weather.city
         tempTv.text = getString(R.string.temp, weather.temp)
         windTv.text = getString(R.string.wind, weather.windSpeed)

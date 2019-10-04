@@ -35,7 +35,7 @@ class WeatherApiDataSource(private val weatherApiService: WeatherApiService) : W
                         result = Result.error(CancelledFetchDataException())
                     }
                 }
-            } catch (ex: Exception) {
+            } catch (ex: Throwable) {
                 result = Result.error(NetworkException())
                 Timber.d("onWeatherReceived NetworkException")
             }

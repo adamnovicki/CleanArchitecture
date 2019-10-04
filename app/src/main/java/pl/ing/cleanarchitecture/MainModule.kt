@@ -13,11 +13,11 @@ import pl.nowicki.openweatherdexprotector.WeatherApiService
 object MainModule {
 
     val mainModule = module {
-        factory { WeatherApi(androidContext()) }
-        factory { provideApiService(get()) }
-        factory { WeatherApiDataSource(weatherApiService = get()) as WeatherDataSource}
-        factory { WeatherRepository(dataSource = get()) }
-        factory { GetWeatherUseCase(weatherRepository = get()) }
+        single { WeatherApi(androidContext()) }
+        single { provideApiService(get()) }
+        single { WeatherApiDataSource(weatherApiService = get()) as WeatherDataSource}
+        single { WeatherRepository(dataSource = get()) }
+        single { GetWeatherUseCase(weatherRepository = get()) }
         viewModel { WeatherViewModel(getWeatherUseCase = get()) }
     }
 

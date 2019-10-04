@@ -16,16 +16,16 @@ class WeatherUseCaseMapper {
             lateinit var result: Result<WeatherData>
 
             if (type?.resultType == ResultType.ERROR) {
-                result = Result(ResultType.ERROR, error = type.error)
+                result = Result.error(error = type.error)
 
             } else {
                 val weatherData = WeatherData(
                     temp = getCelsiusTemp(type?.data?.list?.first()?.main?.temp ?: KELVIN_ZERO),
                     windSpeed = type?.data?.list?.first()?.wind?.speed ?: 0.0,
                     city = type?.data?.city?.name ?: "",
-                    weatherType = mapWeatherType(type?.data?.list?.first()?.weather?.first()?.icon)
+                    weatherType = mapWeatherType(type?.data?.list?.first()?.weather?.first()?.id)
                 )
-                result = Result(ResultType.SUCCESS, data = weatherData)
+                result = Result.success(data = weatherData)
             }
             return result
         }
@@ -35,12 +35,12 @@ class WeatherUseCaseMapper {
 
         private val KELVIN_ZERO = 273.15
 
-        private fun mapWeatherType(iconCode: String?): WeatherType {
-            return when (iconCode) {
-                "01d" -> WeatherType.SUNNY
-                "03d" -> WeatherType.CLOUDY
-                "09d" -> WeatherType.RAINY
-                "13d" -> WeatherType.SNOWY
+        private fun mapWeatherType(id: Int?): WeatherType {
+            return when (id) {
+                800 -> WeatherType.SUNNY
+                in 801..804 -> WeatherType.CLOUDY
+                in 500..531 -> WeatherType.RAINY
+                in 600..622 -> WeatherType.SNOWY
                 else -> WeatherType.CLOUDY
             }
         }
