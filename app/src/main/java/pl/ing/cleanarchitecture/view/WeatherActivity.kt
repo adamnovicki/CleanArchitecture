@@ -3,19 +3,24 @@ package pl.ing.cleanarchitecture.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import pl.ing.cleanarchitecture.R
+import pl.ing.cleanarchitecture.databinding.ActivityMainBinding
 import timber.log.Timber
 
 class WeatherActivity : AppCompatActivity() {
 
     private val viewModel: WeatherViewModel by viewModel()
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         observeLiveData()
         getWeather()
@@ -43,8 +48,6 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     private fun onWeatherReceived(weather: WeatherUI) {
-        cityTv.text = weather.city
-        tempTv.text = getString(R.string.temp, weather.temp)
-        windTv.text = getString(R.string.wind, weather.windSpeed)
+        binding.weather = weather
     }
 }

@@ -19,11 +19,12 @@ class WeatherUseCaseMapper {
                 result = Result.error(error = type.error)
 
             } else {
+                val details = type?.data?.list?.first()
                 val weatherData = WeatherData(
-                    temp = getCelsiusTemp(type?.data?.list?.first()?.main?.temp ?: KELVIN_ZERO),
-                    windSpeed = type?.data?.list?.first()?.wind?.speed ?: 0.0,
+                    temp = getCelsiusTemp(details?.main?.temp ?: KELVIN_ZERO),
+                    windSpeed = details?.wind?.speed ?: 0.0,
                     city = type?.data?.city?.name ?: "",
-                    weatherType = mapWeatherType(type?.data?.list?.first()?.weather?.first()?.id)
+                    weatherType = mapWeatherType(details?.weather?.first()?.id)
                 )
                 result = Result.success(data = weatherData)
             }
